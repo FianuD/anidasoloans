@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anidaso Loans — Loans That Move You Forward</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            emerald: { deep: '#143D2A', mid: '#1D5A3E', light: '#2A7A56' },
+            gold: { base: '#C5A059', light: '#D4B87A', dark: '#A8863E' },
+            warning: { soft: '#FEF2F2', border: '#FECACA', text: '#991B1B', bg: '#FEE2E2' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', system-ui, sans-serif; }
+
+    /* Tab transitions */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeUp 0.45s ease-out; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Gold gradient utilities */
+    .gold-grad { background: linear-gradient(135deg, #C5A059, #D4B87A 50%, #A8863E); }
+    .gold-text {
+      background: linear-gradient(135deg, #C5A059, #D4B87A);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .emerald-grad { background: linear-gradient(160deg, #143D2A 0%, #1D5A3E 55%, #0F2E1F 100%); }
+
+    /* Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #E2E8F0;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #C5A059;
+      cursor: pointer;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 10px rgba(197,160,89,0.45);
+      transition: transform 0.15s;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    input[type="range"]::-moz-range-thumb {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #C5A059;
+      cursor: pointer;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 10px rgba(197,160,89,0.45);
+    }
+
+    /* Pulse on CTA */
+    @keyframes ctaPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(198,160,89,0.45); }
+      70%  { box-shadow: 0 0 0 14px rgba(198,160,89,0); }
+      100% { box-shadow: 0 0 0 0 rgba(198,160,89,0); }
+    }
+    .cta-pulse { animation: ctaPulse 2.4s infinite; }
+
+    /* Warning diagonal stripes */
+    .stripe-warn {
+      background-image: repeating-linear-gradient(
+        -45deg, transparent, transparent 8px,
+        rgba(153,27,27,0.04) 8px, rgba(153,27,27,0.04) 16px
+      );
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8FAF9] text-gray-800 antialiased min-h-screen">
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TOP NAV + TAB SWITCHER                            -->
+<!-- ═══════════════════════════════════════════════════ -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-[#0D0D0D]/95 backdrop-blur-md border-b border-gold-base/25 shadow-lg shadow-black/30">
+  <div class="max-w-[1500px] mx-auto px-6 lg:px-10 flex items-center justify-between h-[64px]">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <!-- Standard Icon Logo placeholder (using your original base64) -->
+      <img src="/assets/logologo.png" alt="Anidaso Loans" class="w-10 h-10 shrink-0 object-contain">
+      <div>
+        <h1 class="text-white font-extrabold text-lg tracking-wider leading-none">ANIDASO</h1>
+        <p class="text-gold-base/70 text-[10px] tracking-[0.25em] font-medium uppercase">Fast · Simple · Trusted</p>
+      </div>
+    </div>
+
+    <!-- Tab Buttons -->
+    <div class="hidden md:flex items-center gap-1 bg-white/[0.06] p-1 rounded-xl border border-gold-base/20">
+      <button id="btn-home" onclick="switchTab('home')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 bg-gold-base text-[#0D0D0D] shadow-md">
+        Home View
+      </button>
+      <button id="btn-about" onclick="switchTab('about')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        About Us
+      </button>
+      <button id="btn-transparency" onclick="switchTab('transparency')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        Transparency Center 
+      </button>
+      <button id="btn-campaign" onclick="switchTab('campaign')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        Campaign Media
+      </button>
+    </div>
+
+    <!-- Regulation Badge (compact, tooltip on hover) -->
+    <div class="relative group flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-gold-base/25 cursor-default">
+      <span class="text-sm">🔒</span>
+      <div class="pointer-events-none absolute top-full right-0 mt-2 w-max max-w-[220px] px-3 py-2 rounded-lg bg-[#0D0D0D] border border-gold-base/25 text-white/90 text-xs font-medium tracking-wide opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 shadow-lg shadow-black/40 z-50">
+        Regulated by Bank of Ghana &amp; DPC
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TAB 1 — HOME VIEW                                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="panel-home" class="tab-panel active pt-[64px]">
+
+  <!-- Hero -->
+  <section class="emerald-grad relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03]"
+         style="background-image:radial-gradient(circle at 20% 30%,#C5A059 1px,transparent 1px),radial-gradient(circle at 80% 70%,#C5A059 1px,transparent 1px);background-size:60px 60px;"></div>
+    <div class="absolute top-16 right-16 w-96 h-96 bg-gold-base/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-8 left-8 w-72 h-72 bg-[#2A7A56]/15 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-[1500px] mx-auto px-6 lg:px-10 py-14 lg:py-20">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: Copy -->
+        <div class="space-y-7">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-base/10 border border-gold-base/30">
+            <span class="w-2 h-2 rounded-full bg-gold-base animate-pulse"></span>
+            <span class="text-gold-base text-xs font-semibold tracking-widest uppercase">Fast · Simple · Trusted</span>
+          </div>
+
+          <h2 class="text-4xl lg:text-5xl xl:text-[3.4rem] font-extrabold text-white leading-[1.1] tracking-tight">
+            Loans That Move<br><span class="gold-text">You Forward.</span>
+          </h2>
+
+          <p class="text-xl lg:text-2xl text-white/70 font-light leading-relaxed max-w-lg">
+            Speed Without Sacrificing Privacy.
+          </p>
+
+          <p class="text-white/50 text-base leading-relaxed max-w-md">
+            Ghana's first dignity-first lending platform. Built on Data Protection Act, 2012
+            (Act 843) principles, powered by MoMo, governed by the Data Protection Commission.
+          </p>
+
+          <div class="flex flex-wrap gap-6 pt-2">
+            <div class="flex items-center gap-2 text-white/60 text-sm">
+              <svg class="w-5 h-5 text-gold-base" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Act 843 Compliant
+            </div>
+            <div class="flex items-center gap-2 text-white/60 text-sm">
+              <svg class="w-5 h-5 text-gold-base" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Zero Contact Harvesting
+            </div>
+            <div class="flex items-center gap-2 text-white/60 text-sm">
+              <svg class="w-5 h-5 text-gold-base" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Instant MoMo Disbursement
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Simulation Card -->
+        <div class="relative">
+          <div class="absolute -inset-3 gold-grad rounded-3xl opacity-8 blur-xl"></div>
+          <div class="relative bg-white/95 backdrop-blur-xl rounded-2xl p-7 shadow-2xl border border-gold-base/20">
+
+            <!-- Card Header -->
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <p class="text-xs font-semibold text-gray-400 tracking-widest uppercase">Loan Simulation</p>
+                <p class="text-xl font-bold text-[#143D2A]">Request Amount</p>
+              </div>
+              <div class="w-10 h-10 rounded-full bg-[#143D2A] flex items-center justify-center">
+                <svg class="w-5 h-5 text-gold-base" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.66 0-3 .895-3 2s1.34 2 3 2 3 .895 3 2-1.34 2-3 2m0-8V6m0 14v-2m0-10c1.11 0 2.08.4 2.599 1M12 8V6"/></svg>
+              </div>
+            </div>
+
+            <!-- Amount -->
+            <div class="text-center mb-6">
+              <p id="loan-display" class="text-4xl font-extrabold text-[#143D2A] tracking-tight">GHS 2,500</p>
+              <p class="text-sm text-gray-400 mt-1">Est. monthly repayment: <span id="monthly-display" class="font-semibold text-gold-dark">GHS 875</span></p>
+            </div>
+
+            <!-- Slider -->
+            <div class="mb-7">
+              <div class="flex justify-between text-xs text-gray-400 font-medium mb-2">
+                <span>GHS 500</span>
+                <span class="text-gold-dark font-bold">Your Amount</span>
+                <span>GHS 5,000</span>
+              </div>
+              <input type="range" id="loan-slider" min="500" max="5000" value="2500" step="100"
+                     oninput="updateLoan(this.value)" class="cursor-pointer">
+            </div>
+
+            <!-- Step Progress -->
+            <div class="mb-7">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Application Progress</span>
+                <span class="text-xs text-gold-dark font-bold">Step 2 of 3</span>
+              </div>
+              <div class="flex gap-2">
+                <div class="flex-1 h-1.5 rounded-full bg-[#143D2A]"></div>
+                <div class="flex-1 h-1.5 rounded-full gold-grad"></div>
+                <div class="flex-1 h-1.5 rounded-full bg-gray-200"></div>
+              </div>
+              <div class="flex justify-between mt-2">
+                <span class="text-[10px] text-gray-400">Identity ✓</span>
+                <span class="text-[10px] text-gold-dark font-semibold">Amount ●</span>
+                <span class="text-[10px] text-gray-400">Disburse ○</span>
+              </div>
+            </div>
+
+            <!-- Data Minimization Disclaimer -->
+            <div class="bg-[#143D2A]/5 border border-[#143D2A]/10 rounded-xl p-4 mb-6">
+              <div class="flex items-start gap-3">
+                <div class="mt-0.5 w-8 h-8 rounded-lg bg-[#143D2A]/10 flex items-center justify-center flex-shrink-0">
+                  <svg class="w-4 h-4 text-[#143D2A]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-[#143D2A]">Data Minimization Protocol Active</p>
+                  <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                    We never request access to your contact lists, SMS logs, or private text messages.
+                    Your data stays yours. Act 843, Section 31 enforced.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <button class="w-full gold-grad text-[#143D2A] font-bold text-base py-4 rounded-xl tracking-wide shadow-lg shadow-gold-base/30 hover:shadow-gold-base/50 hover:scale-[1.02] active:scale-[0.98] transition-all cta-pulse">
+              Apply Safely with MoMo
+            </button>
+            <p class="text-center text-[11px] text-gray-400 mt-3">
+              Instant approval · No hard credit pulls · 100% MoMo verified
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <section class="bg-white border-t border-gray-100">
+    <div class="max-w-[1500px] mx-auto px-6 lg:px-10 py-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-3xl font-extrabold text-[#143D2A]">0</p>
+          <p class="text-xs text-gray-400 font-medium tracking-wide uppercase">Contact List Requests</p>
+        </div>
+        <div>
+          <p class="text-3xl font-extrabold text-[#143D2A]">0</p>
+          <p class="text-xs text-gray-400 font-medium tracking-wide uppercase">SMS Logs Read</p>
+        </div>
+        <div>
+          <p class="text-3xl font-extrabold text-[#143D2A]">100%</p>
+          <p class="text-xs text-gray-400 font-medium tracking-wide uppercase">Act 843 Compliance</p>
+        </div>
+        <div>
+          <p class="text-3xl font-extrabold gold-text">72 hr</p>
+          <p class="text-xs text-gray-400 font-medium tracking-wide uppercase">Avg. Disbursement</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TAB 2 — ABOUT US                                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="panel-about" class="tab-panel pt-[64px]">
+
+  <!-- About Hero -->
+  <section class="emerald-grad relative overflow-hidden py-16 lg:py-20">
+    <div class="absolute inset-0 opacity-[0.025]" style="background-image:radial-gradient(circle at 30% 40%,#C5A059 1px,transparent 1px);background-size:50px 50px;"></div>
+    <div class="relative max-w-[1200px] mx-auto px-6 lg:px-10 text-center">
+      <h2 class="text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
+        Empowering Ghanaians with <span class="gold-text">Dignity</span>
+      </h2>
+      <p class="text-lg lg:text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed">
+        We are rethinking digital lending. No harassment, no hidden fees, just fast financial support when you need it most.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="py-16 lg:py-20 bg-white">
+    <div class="max-w-[1300px] mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase">Who We Are</p>
+        <h3 class="text-3xl font-extrabold text-[#143D2A] leading-snug">
+          More than a loan app.<br>A financial partner you can trust.
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          Anidaso means "Hope" in Twi. We founded Anidaso Loans to bridge the financial gap for everyday Ghanaians without compromising their privacy or peace of mind. By leveraging secure Mobile Money (MoMo) technology and strictly adhering to the Data Protection Act, 2012 (Act 843), we provide instant liquidity with zero predatory practices.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Whether you are a small business owner needing working capital, or a family handling an emergency, our mission is to move you forward safely and simply.
+        </p>
+      </div>
+      
+      <!-- Placeholder Image -->
+      <div class="relative">
+        <div class="absolute -inset-4 gold-grad rounded-3xl opacity-10 blur-xl"></div>
+        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80" alt="Smiling professional" class="relative rounded-2xl shadow-xl object-cover h-[400px] w-full border border-gray-100">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 lg:py-20 bg-[#F8FAF9] border-t border-gray-100">
+    <div class="max-w-[1300px] mx-auto px-6 lg:px-10 grid lg:grid-cols-2 gap-12 items-center">
+      
+      <!-- Placeholder Image -->
+      <div class="relative order-2 lg:order-1">
+        <div class="absolute -inset-4 bg-[#143D2A] rounded-3xl opacity-10 blur-xl"></div>
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Mobile money transaction" class="relative rounded-2xl shadow-xl object-cover h-[400px] w-full border border-gray-100">
+      </div>
+
+      <div class="space-y-6 order-1 lg:order-2">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase">What We Do</p>
+        <h3 class="text-3xl font-extrabold text-[#143D2A] leading-snug">
+          Fast, frictionless, and secure financial access.
+        </h3>
+        <ul class="space-y-4 mt-4">
+          <li class="flex items-start gap-3">
+            <span class="mt-1 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+            <div>
+              <p class="font-semibold text-[#143D2A]">Instant Disbursements</p>
+              <p class="text-sm text-gray-500 leading-relaxed">Funds are sent directly to your MTN, Telecel, or AT mobile money wallet in minutes.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+            <div>
+              <p class="font-semibold text-[#143D2A]">Transparent Terms</p>
+              <p class="text-sm text-gray-500 leading-relaxed">You see exactly what you owe before you accept. No hidden processing fees or late-fee traps.</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="mt-1 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+            <div>
+              <p class="font-semibold text-[#143D2A]">Privacy First</p>
+              <p class="text-sm text-gray-500 leading-relaxed">We never call your friends or family. Your financial data is encrypted and highly protected.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TAB 3 — TRANSPARENCY CENTER                        -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="panel-transparency" class="tab-panel pt-[64px]">
+
+  <!-- Executive Statement -->
+  <section class="emerald-grad text-white py-16 lg:py-20 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.025]"
+         style="background-image:radial-gradient(circle at 30% 40%,#C5A059 1px,transparent 1px);background-size:50px 50px;"></div>
+    <div class="absolute top-0 right-0 w-80 h-80 bg-gold-base/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-[1200px] mx-auto px-6 lg:px-10 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-base/10 border border-gold-base/30 mb-6">
+        <span class="w-2 h-2 rounded-full bg-gold-base animate-pulse"></span>
+        <span class="text-gold-base text-xs font-semibold tracking-widest uppercase">Transparency Center</span>
+      </div>
+
+      <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+        Our Evolution: <span class="gold-text">Ethics by Design</span>
+      </h2>
+      <p class="text-lg lg:text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed">
+        How Anidaso eliminated predatory harvesting to set the gold standard
+        for Ghanaian digital finance.
+      </p>
+    </div>
+  </section>
+
+  <!-- Before vs After Matrix -->
+  <section class="py-16 lg:py-20 bg-[#F8FAF9]">
+    <div class="max-w-[1300px] mx-auto px-6 lg:px-10">
+
+      <div class="text-center mb-12">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">The Policy Shift</p>
+        <h3 class="text-3xl lg:text-4xl font-extrabold text-[#143D2A] tracking-tight">Before vs. After</h3>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+          A side-by-side contrast of the predatory data practices we reject
+          versus the Act 843–enforced governance we now ship.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- Column A: Predatory -->
+        <div class="stripe-warn bg-warning-soft border-2 border-warning-border rounded-2xl p-8 relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 via-red-500 to-red-400"></div>
+
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-11 h-11 rounded-xl bg-red-100 flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-red-500 tracking-widest uppercase">The Past · Competitors</p>
+              <h4 class="text-xl font-extrabold text-red-800">Predatory Practices</h4>
+            </div>
+          </div>
+
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600 text-xs font-bold">✕</span>
+              <div>
+                <p class="font-semibold text-red-900 text-sm">Illegal Contact Harvesting</p>
+                <p class="text-sm text-red-700/70 mt-0.5">Rogue apps request full phone-book access, silently exfiltrating names, numbers, and relationships of every contact.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600 text-xs font-bold">✕</span>
+              <div>
+                <p class="font-semibold text-red-900 text-sm">SMS Log Reading</p>
+                <p class="text-sm text-red-700/70 mt-0.5">Apps parse incoming and outgoing SMS to build shadow credit profiles, reading OTPs, transaction alerts, and personal messages.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600 text-xs font-bold">✕</span>
+              <div>
+                <p class="font-semibold text-red-900 text-sm">Social-Shaming Debt Tactics</p>
+                <p class="text-sm text-red-700/70 mt-0.5">Default triggers mass notifications to every harvested contact. Debt collection becomes public humiliation and family disruption.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 text-red-600 text-xs font-bold">✕</span>
+              <div>
+                <p class="font-semibold text-red-900 text-sm">Indefinite Data Retention</p>
+                <p class="text-sm text-red-700/70 mt-0.5">Personal data is retained forever, far beyond the loan lifecycle, with no Right to Erasure and no DPO oversight.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column B: Anidaso Standard -->
+        <div class="bg-[#143D2A] border-2 border-gold-base/20 rounded-2xl p-8 relative overflow-hidden shadow-xl">
+          <div class="absolute top-0 left-0 right-0 h-1 gold-grad"></div>
+          <div class="absolute bottom-0 right-0 w-48 h-48 bg-gold-base/5 rounded-full blur-3xl"></div>
+
+          <div class="flex items-center gap-3 mb-6 relative">
+            <div class="w-11 h-11 rounded-xl bg-gold-base/15 flex items-center justify-center">
+              <svg class="w-6 h-6 text-gold-base" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold text-gold-base tracking-widest uppercase">The Anidaso Standard</p>
+              <h4 class="text-xl font-extrabold text-white">Act 843 Enforced Governance</h4>
+            </div>
+          </div>
+
+          <ul class="space-y-4 relative">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+              <div>
+                <p class="font-semibold text-white text-sm">Role-Based Access Control (RBAC)</p>
+                <p class="text-sm text-white/60 mt-0.5">Loan officers see credit data only. Support agents see account status only. No single role can access the full data graph.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+              <div>
+                <p class="font-semibold text-white text-sm">Automated Data Minimization at Sign-Up</p>
+                <p class="text-sm text-white/60 mt-0.5">The system requests only MoMo identity, national ID, and income declaration. No contact access. No SMS read. No social-graph traversal.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+              <div>
+                <p class="font-semibold text-white text-sm">Zero Boundary Violations</p>
+                <p class="text-sm text-white/60 mt-0.5">Emergency contacts are optional, time-limited (72-hour activation window), and explicitly scoped. No skip-tracing. No social shaming. Period.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-6 h-6 rounded-full bg-gold-base/15 flex items-center justify-center flex-shrink-0 text-gold-base text-xs font-bold">✓</span>
+              <div>
+                <p class="font-semibold text-white text-sm">Lifecycle-Scoped Retention</p>
+                <p class="text-sm text-white/60 mt-0.5">365-day hard purge after loan settlement. Full Right to Erasure honored. DPO audits every processing decision.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three Pillars of Consumer Dignity -->
+  <section class="py-16 lg:py-20 bg-white border-t border-gray-100">
+    <div class="max-w-[1300px] mx-auto px-6 lg:px-10">
+
+      <div class="text-center mb-14">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Our Commitment</p>
+        <h3 class="text-3xl lg:text-4xl font-extrabold text-[#143D2A] tracking-tight">Three Pillars of Consumer Dignity</h3>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+          Borrowers are not data points. They are people with rights,
+          privacy, and the dignity to control their own information.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <!-- Pillar 1: Consent Control -->
+        <div class="group rounded-2xl border border-gray-200 bg-white p-7 hover:border-gold-base/40 hover:shadow-lg hover:shadow-gold-base/10 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-[#143D2A] flex items-center justify-center mb-5 group-hover:bg-gold-base/15 transition-colors">
+            <svg class="w-7 h-7 text-gold-base group-hover:text-gold-base transition-colors" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Pillar 01</p>
+          <h4 class="text-xl font-extrabold text-[#143D2A] mb-2">Consent Control</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Borrowers can explicitly grant or revoke alternate data access dynamically
+            through a real-time consent dashboard. No pre-checked boxes. No bundled
+            permissions. Every data point is an individual, revocable decision.
+          </p>
+          <div class="mt-5 pt-4 border-t border-gray-100">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#143D2A] bg-[#143D2A]/5 px-3 py-1.5 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-gold-base"></span>
+              Act 843 § 13 — Explicit Consent
+            </span>
+          </div>
+        </div>
+
+        <!-- Pillar 2: Dignified Recovery -->
+        <div class="group rounded-2xl border border-gray-200 bg-white p-7 hover:border-gold-base/40 hover:shadow-lg hover:shadow-gold-base/10 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-[#143D2A] flex items-center justify-center mb-5 group-hover:bg-gold-base/15 transition-colors">
+            <svg class="w-7 h-7 text-gold-base" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Pillar 02</p>
+          <h4 class="text-xl font-extrabold text-[#143D2A] mb-2">Dignified Recovery</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Strict operational limits on skip-tracing scripts. No contact harassment.
+            Debt collection is completely decoupled from private personal relationships.
+            Recovery is a financial conversation, never a social one.
+          </p>
+          <div class="mt-5 pt-4 border-t border-gray-100">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#143D2A] bg-[#143D2A]/5 px-3 py-1.5 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-gold-base"></span>
+              DPC Guidelines § 7 — Fair Treatment
+            </span>
+          </div>
+        </div>
+
+        <!-- Pillar 3: Lifecycle Deletion -->
+        <div class="group rounded-2xl border border-gray-200 bg-white p-7 hover:border-gold-base/40 hover:shadow-lg hover:shadow-gold-base/10 transition-all duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-[#143D2A] flex items-center justify-center mb-5 group-hover:bg-gold-base/15 transition-colors">
+            <svg class="w-7 h-7 text-gold-base" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </div>
+          <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Pillar 03</p>
+          <h4 class="text-xl font-extrabold text-[#143D2A] mb-2">Lifecycle Deletion</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Automatic archiving and purging of data records once loans are settled,
+            fully respecting the Right to Erasure under Ghana's Data Protection Act,
+            2012 (Act 843). 365-day hard purge. No indefinite retention.
+          </p>
+          <div class="mt-5 pt-4 border-t border-gray-100">
+            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#143D2A] bg-[#143D2A]/5 px-3 py-1.5 rounded-full">
+              <span class="w-1.5 h-1.5 rounded-full bg-gold-base"></span>
+              Act 843 § 15 — Right to Erasure
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  TAB 4 — CAMPAIGN MEDIA (New!)                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="panel-campaign" class="tab-panel pt-[64px]">
+
+  <!-- Campaign Hero -->
+  <section class="emerald-grad text-white py-16 lg:py-20 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.025]" style="background-image:radial-gradient(circle at 30% 40%,#C5A059 1px,transparent 1px);background-size:50px 50px;"></div>
+    <div class="absolute top-0 left-0 w-80 h-80 bg-gold-base/5 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-[1200px] mx-auto px-6 lg:px-10 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-base/10 border border-gold-base/30 mb-6">
+        <span class="w-2 h-2 rounded-full bg-gold-base animate-pulse"></span>
+        <span class="text-gold-base text-xs font-semibold tracking-widest uppercase">Our Ad Campaign</span>
+      </div>
+      <h2 class="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+        Communicating <span class="gold-text">Data Rights</span>
+      </h2>
+      <p class="text-lg lg:text-xl text-white/70 font-light max-w-2xl mx-auto leading-relaxed">
+        Explore the visual and audio materials we use to educate consumers on the Anidaso data governance policy. 
+      </p>
+    </div>
+  </section>
+
+  <!-- Print & Digital Ads Grid -->
+  <section class="py-16 lg:py-20 bg-[#F8FAF9]">
+    <div class="max-w-[1300px] mx-auto px-6 lg:px-10">
+      <div class="text-center mb-12">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Visual Media</p>
+        <h3 class="text-3xl font-extrabold text-[#143D2A] tracking-tight">Posters & Fliers</h3>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+          Hover over our campaign materials to see them in detail. These visuals are designed to communicate our dignity-first approach clearly and effectively.
+        </p>
+      </div>
+
+      <!-- Image Grid (Change the src attribute to point to your files like: src="assets/my-flyer.png") -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Flyer 1 -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
+          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
+            <!-- Replace src below -->
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80" 
+                 alt="Campaign Flyer 1" 
+                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+            <p class="text-white font-semibold">"Your Data, Your Rules" Flyer</p>
+          </div>
+        </div>
+
+        <!-- Flyer 2 -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
+          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
+            <!-- Replace src below -->
+            <img src="https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&w=600&q=80" 
+                 alt="Campaign Flyer 2" 
+                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+            <p class="text-white font-semibold">Anti-Harassment Poster</p>
+          </div>
+        </div>
+
+        <!-- Flyer 3 -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
+          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
+            <!-- Replace src below -->
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" 
+                 alt="Campaign Flyer 3" 
+                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+            <p class="text-white font-semibold">Social Media Banner (Instagram)</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Audio / Jingles Section -->
+  <section class="py-16 lg:py-20 bg-white border-t border-gray-100">
+    <div class="max-w-[800px] mx-auto px-6 lg:px-10">
+      <div class="text-center mb-12">
+        <p class="text-xs font-bold text-gold-dark tracking-widest uppercase mb-2">Audio Media</p>
+        <h3 class="text-3xl font-extrabold text-[#143D2A] tracking-tight">Radio & Jingles</h3>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto">
+          Listen to our broadcast materials designed for local radio stations across Ghana, reinforcing our commitment to data privacy in both English and local dialects.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Audio Card 1 -->
+        <div class="bg-[#F8FAF9] border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
+          <div class="w-16 h-16 rounded-full bg-[#143D2A] flex items-center justify-center flex-shrink-0 shadow-md">
+            <svg class="w-8 h-8 text-gold-base ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <div class="flex-1 w-full text-center md:text-left">
+            <h4 class="font-bold text-[#143D2A] mb-1">Main Campaign Jingle (30s)</h4>
+            <p class="text-sm text-gray-500 mb-4">English & Twi version highlighting privacy and speed.</p>
+            <!-- Replace src below -->
+            <audio controls class="w-full h-10 outline-none rounded-full">
+              <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+
+        <!-- Audio Card 2 -->
+        <div class="bg-[#F8FAF9] border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
+          <div class="w-16 h-16 rounded-full bg-[#143D2A] flex items-center justify-center flex-shrink-0 shadow-md">
+            <svg class="w-8 h-8 text-gold-base ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <div class="flex-1 w-full text-center md:text-left">
+            <h4 class="font-bold text-[#143D2A] mb-1">Radio Ad: Data Protection (45s)</h4>
+            <p class="text-sm text-gray-500 mb-4">A short skit demonstrating zero contact harvesting.</p>
+            <!-- Replace src below -->
+            <audio controls class="w-full h-10 outline-none rounded-full">
+              <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  FOOTER (persistent across all tabs)                -->
+<!-- ═══════════════════════════════════════════════════ -->
+<footer class="bg-[#143D2A] py-8 mt-auto">
+  <div class="max-w-[1300px] mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-center">
+    <p class="text-white/50 text-xs">© 2026 Anidaso Loans · Bank of Ghana Licensed · Data Protection Act, 2012 (Act 843), regulated by the Data Protection Commission</p>
+    <p class="text-gold-base/60 text-xs font-medium tracking-wider">Loans That Move You Forward · Accra, Ghana</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!--  JAVASCRIPT                                         -->
+<!-- ═══════════════════════════════════════════════════ -->
+<script>
+  /* ── Tab Switcher ── */
+  function switchTab(tab) {
+    const panels = {
+      home:         document.getElementById('panel-home'),
+      about:        document.getElementById('panel-about'),
+      transparency: document.getElementById('panel-transparency'),
+      campaign:     document.getElementById('panel-campaign')
+    };
+    
+    const buttons = {
+      home:         document.getElementById('btn-home'),
+      about:        document.getElementById('btn-about'),
+      transparency: document.getElementById('btn-transparency'),
+      campaign:     document.getElementById('btn-campaign')
+    };
+
+    // Hide all panels and reset all buttons
+    Object.values(panels).forEach(p => p.classList.remove('active'));
+    Object.values(buttons).forEach(b => {
+      b.classList.remove('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
+      b.classList.add('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
+    });
+
+    // Show active panel and highlight active button
+    panels[tab].classList.add('active');
+    buttons[tab].classList.add('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
+    buttons[tab].classList.remove('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
+
+    // Scroll to top smoothly when switching tabs
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── Loan Slider ── */
+  function updateLoan(val) {
+    const amount  = Number(val);
+    const monthly = Math.round(amount * 0.35); // ~35% flat for 3-month demo
+    document.getElementById('loan-display').textContent     = 'GHS ' + amount.toLocaleString();
+    document.getElementById('monthly-display').textContent  = 'GHS ' + monthly.toLocaleString();
+
+    /* Fill the track behind the thumb */
+    const pct = ((amount - 500) / 4500) * 100;
+    const slider = document.getElementById('loan-slider');
+    slider.style.background =
+      `linear-gradient(to right, #C5A059 0%, #C5A059 ${pct}%, #E2E8F0 ${pct}%, #E2E8F0 100%)`;
+  }
+
+  /* Initialise slider fill on load */
+  updateLoan(2500);
+</script>
+
+</body>
+</html>
