@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anidaso Loans — Loans That Move You Forward</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -376,7 +378,7 @@
       <!-- Placeholder Image -->
       <div class="relative order-2 lg:order-1">
         <div class="absolute -inset-4 bg-[#143D2A] rounded-3xl opacity-10 blur-xl"></div>
-        <img src="/assets/vitaly-gariev-ZIHugVW3SZk-unsplash.jpg" alt="Mobile money transaction" class="relative rounded-2xl shadow-xl object-cover h-[400px] w-full border border-gray-100">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80" alt="Mobile money transaction" class="relative rounded-2xl shadow-xl object-cover h-[400px] w-full border border-gray-100">
       </div>
 
       <div class="space-y-6 order-1 lg:order-2">
@@ -675,45 +677,42 @@
         </p>
       </div>
 
-      <!-- Image Grid (Change the src attribute to point to your files like: src="assets/my-flyer.png") -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        <!-- Flyer 1 -->
-        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
-          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
-            <!-- Replace src below -->
-            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=600&q=80" 
-                 alt="Campaign Flyer 1" 
+      <!-- Image Grid — sized to match each asset's native aspect ratio so nothing crops awkwardly -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Instagram Post (portrait) — tall left column, stretches to fill the full 2-row span -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer md:row-span-2">
+          <div class="h-full w-full overflow-hidden bg-gray-100">
+            <img src="assets/campaign/InstagramPost.png"
+                 alt="Instagram campaign post — Your Privacy, Protected"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
           </div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <p class="text-white font-semibold">"Your Data, Your Rules" Flyer</p>
+            <p class="text-white font-semibold">Instagram Post — "Your Privacy, Protected"</p>
           </div>
         </div>
 
-        <!-- Flyer 2 -->
-        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
-          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
-            <!-- Replace src below -->
-            <img src="https://images.unsplash.com/photo-1553484771-371a605b060b?auto=format&fit=crop&w=600&q=80" 
-                 alt="Campaign Flyer 2" 
+        <!-- Customer-Facing Infographic (near 4:3) — right, top -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer md:col-span-2">
+          <div class="aspect-[4/3] bg-gray-100 w-full overflow-hidden">
+            <img src="assets/campaign/CustomerFacingInfoGraphic.jpeg"
+                 alt="Customer-facing infographic on Anidaso's data governance practices"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
           </div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <p class="text-white font-semibold">Anti-Harassment Poster</p>
+            <p class="text-white font-semibold">Customer Infographic — "Your Dignity, Our Priority"</p>
           </div>
         </div>
 
-        <!-- Flyer 3 -->
-        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer">
-          <div class="aspect-[3/4] bg-gray-200 w-full overflow-hidden">
-            <!-- Replace src below -->
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" 
-                 alt="Campaign Flyer 3" 
+        <!-- Roadside Billboard (wide ~16:9) — right, bottom -->
+        <div class="group relative rounded-2xl overflow-hidden shadow-lg border border-gray-200 cursor-pointer md:col-span-2">
+          <div class="aspect-[16/9] bg-gray-100 w-full overflow-hidden">
+            <img src="assets/campaign/RoadSideBillboard.jpeg"
+                 alt="Roadside billboard — Loans That Move You Forward"
                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
           </div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-            <p class="text-white font-semibold">Social Media Banner (Instagram)</p>
+            <p class="text-white font-semibold">Roadside Billboard — "Loans That Move You Forward"</p>
           </div>
         </div>
 
