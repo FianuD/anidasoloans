@@ -105,28 +105,27 @@
       </div>
     </div>
 
-    <!-- Tab Buttons (Responsive) -->
-    <div id="nav-menu" class="hidden absolute top-[64px] left-0 w-full bg-[#0D0D0D]/95 backdrop-blur-md border-b border-gold-base/25 p-4 flex-col gap-2 shadow-xl md:static md:w-auto md:bg-white/[0.06] md:border md:p-1 md:rounded-xl md:flex md:flex-row md:items-center md:shadow-none">
-      <button id="btn-home" onclick="switchTab('home')"
-        class="w-full md:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 bg-gold-base text-[#0D0D0D] shadow-md">
+    <!-- Tab Buttons (desktop) -->
+    <div class="hidden md:flex items-center gap-1 bg-white/[0.06] p-1 rounded-xl border border-gold-base/20">
+      <button data-tab-btn="home" onclick="switchTab('home')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 bg-gold-base text-[#0D0D0D] shadow-md">
         Home View
       </button>
-      <button id="btn-about" onclick="switchTab('about')"
-        class="w-full md:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+      <button data-tab-btn="about" onclick="switchTab('about')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
         About Us
       </button>
-      <button id="btn-transparency" onclick="switchTab('transparency')"
-        class="w-full md:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+      <button data-tab-btn="transparency" onclick="switchTab('transparency')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
         Transparency Center 
       </button>
-      <button id="btn-campaign" onclick="switchTab('campaign')"
-        class="w-full md:w-auto px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+      <button data-tab-btn="campaign" onclick="switchTab('campaign')"
+        class="px-4 py-2.5 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
         Campaign Media
       </button>
     </div>
 
-    <!-- Right Side: Badge & Mobile Toggle -->
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
       <!-- Regulation Badge (compact, tooltip on hover) -->
       <div class="relative group flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-gold-base/25 cursor-default">
         <span class="text-sm">🔒</span>
@@ -135,14 +134,39 @@
         </div>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <button onclick="toggleMobileMenu()" class="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-gold-base/25 text-gold-base focus:outline-none transition-colors hover:bg-gold-base/10">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <!-- Mobile menu toggle (hidden on md+) -->
+      <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false"
+        class="flex md:hidden items-center justify-center w-9 h-9 rounded-lg bg-white/[0.06] border border-gold-base/25 text-gold-base">
+        <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
     </div>
+  </div>
 
+  <!-- Tab Buttons (mobile dropdown) -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gold-base/20 bg-[#0D0D0D]/98 backdrop-blur-md">
+    <div class="max-w-[1500px] mx-auto px-6 py-3 flex flex-col gap-1">
+      <button data-tab-btn="home" onclick="switchTab('home')"
+        class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 bg-gold-base text-[#0D0D0D] shadow-md">
+        Home View
+      </button>
+      <button data-tab-btn="about" onclick="switchTab('about')"
+        class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        About Us
+      </button>
+      <button data-tab-btn="transparency" onclick="switchTab('transparency')"
+        class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        Transparency Center
+      </button>
+      <button data-tab-btn="campaign" onclick="switchTab('campaign')"
+        class="w-full text-left px-4 py-3 rounded-lg text-sm font-semibold tracking-wide transition-all duration-300 text-gold-base/80 hover:text-gold-base hover:bg-gold-base/10">
+        Campaign Media
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -765,69 +789,49 @@
 <!--  JAVASCRIPT                                         -->
 <!-- ═══════════════════════════════════════════════════ -->
 <script>
-/* ── Tab Switcher ── */
+  /* ── Tab Switcher ──
+     Works with any number of buttons per tab (desktop bar + mobile dropdown)
+     by matching on the shared data-tab-btn attribute instead of unique ids. */
   function switchTab(tab) {
-    const panels = {
-      home:         document.getElementById('panel-home'),
-      about:        document.getElementById('panel-about'),
-      transparency: document.getElementById('panel-transparency'),
-      campaign:     document.getElementById('panel-campaign')
-    };
-    
-    const buttons = {
-      home:         document.getElementById('btn-home'),
-      about:        document.getElementById('btn-about'),
-      transparency: document.getElementById('btn-transparency'),
-      campaign:     document.getElementById('btn-campaign')
-    };
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + tab);
+    if (panel) panel.classList.add('active');
 
-    // Hide all panels and reset all buttons
-    Object.values(panels).forEach(p => p.classList.remove('active'));
-    Object.values(buttons).forEach(b => {
-      b.classList.remove('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
-      b.classList.add('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
+    document.querySelectorAll('[data-tab-btn]').forEach(b => {
+      const isActive = b.dataset.tabBtn === tab;
+      b.classList.toggle('bg-gold-base', isActive);
+      b.classList.toggle('text-[#0D0D0D]', isActive);
+      b.classList.toggle('shadow-md', isActive);
+      b.classList.toggle('text-gold-base/80', !isActive);
+      b.classList.toggle('hover:text-gold-base', !isActive);
+      b.classList.toggle('hover:bg-gold-base/10', !isActive);
     });
 
-    // Show active panel and highlight active button
-    panels[tab].classList.add('active');
-    buttons[tab].classList.add('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
-    buttons[tab].classList.remove('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
+    closeMobileMenu();
 
     // Scroll to top smoothly when switching tabs
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Close the mobile menu automatically after selection
-    const navMenu = document.getElementById('nav-menu');
-    if (navMenu && window.innerWidth < 768) {
-      navMenu.classList.add('hidden');
-      navMenu.classList.remove('flex');
-    }
   }
 
   /* ── Mobile Menu Toggle ── */
   function toggleMobileMenu() {
-    const menu = document.getElementById('nav-menu');
-    menu.classList.toggle('hidden');
-    menu.classList.toggle('flex');
+    const menu = document.getElementById('mobile-menu');
+    const isHidden = menu.classList.contains('hidden');
+    if (isHidden) { openMobileMenu(); } else { closeMobileMenu(); }
   }
-
-  /* ── Loan Slider ── */
-  // ... (Keep your existing Loan Slider code here)
-
-    // Hide all panels and reset all buttons
-    Object.values(panels).forEach(p => p.classList.remove('active'));
-    Object.values(buttons).forEach(b => {
-      b.classList.remove('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
-      b.classList.add('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
-    });
-
-    // Show active panel and highlight active button
-    panels[tab].classList.add('active');
-    buttons[tab].classList.add('bg-gold-base', 'text-[#0D0D0D]', 'shadow-md');
-    buttons[tab].classList.remove('text-gold-base/80', 'hover:text-gold-base', 'hover:bg-gold-base/10');
-
-    // Scroll to top smoothly when switching tabs
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  function openMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('hidden');
+    document.getElementById('menu-icon-open').classList.add('hidden');
+    document.getElementById('menu-icon-close').classList.remove('hidden');
+    document.getElementById('mobile-menu-btn').setAttribute('aria-expanded', 'true');
+  }
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    if (!menu) return;
+    menu.classList.add('hidden');
+    document.getElementById('menu-icon-open').classList.remove('hidden');
+    document.getElementById('menu-icon-close').classList.add('hidden');
+    document.getElementById('mobile-menu-btn').setAttribute('aria-expanded', 'false');
   }
 
   /* ── Loan Slider ── */
