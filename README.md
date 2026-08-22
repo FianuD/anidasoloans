@@ -69,6 +69,10 @@ The site is configured for deployment on Netlify via `netlify.toml`:
 
 Pushing to the `main` branch will trigger a new build and deploy if connected to Netlify.
 
+## Image Credits
+
+Images used on the About Us page are sourced from [Unsplash](https://unsplash.com/) and used under the [Unsplash License](https://unsplash.com/license).
+
 ## License
 
 © Anidaso Loans Ltd. All rights reserved.
