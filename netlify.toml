@@ -1,3 +1,9 @@
 [build]
   command = "npm run build"
   publish = "."
+
+[[headers]]
+  # Target all files inside your assets folder (images, video, audio)
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
